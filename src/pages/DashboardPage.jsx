@@ -10,26 +10,22 @@ export default function DashboardPage() {
   const [showSalesModal, setShowSalesModal] = useState(false)
   const [salesRefresh, setSalesRefresh] = useState(0)
 
-  const handleSaleComplete = () => {
-    setSalesRefresh(n => n + 1)
-  }
-
   const tabs = [
     { id: 'products', label: 'Daftar Produk', icon: Package },
-    { id: 'sales', label: 'Riwayat Transaksi', icon: ClipboardList },
+    { id: 'sales', label: 'Riwayat', icon: ClipboardList },
   ]
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar onNewSale={() => setShowSalesModal(true)} />
 
-      <main className="max-w-5xl mx-auto px-4 py-6">
-        <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm border border-gray-200 w-fit mb-6">
+      <main className="max-w-5xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
+        <div className="flex gap-1 bg-white rounded-xl p-1 shadow-sm border border-gray-200 mb-4 sm:mb-6 w-full sm:w-fit">
           {tabs.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`flex-1 sm:flex-none flex items-center justify-center sm:justify-start gap-2 px-3 sm:px-5 py-2.5 rounded-lg text-sm font-medium transition-all ${
                 activeTab === id
                   ? 'bg-emerald-600 text-white shadow-sm'
                   : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
@@ -48,7 +44,7 @@ export default function DashboardPage() {
       {showSalesModal && (
         <SalesModal
           onClose={() => setShowSalesModal(false)}
-          onComplete={handleSaleComplete}
+          onComplete={() => setSalesRefresh(n => n + 1)}
         />
       )}
     </div>
