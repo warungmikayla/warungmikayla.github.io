@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../lib/supabase'
 import { formatRupiah, formatTanggal } from '../lib/format'
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { downloadReceiptPDF } from '../lib/receipt'
+import { ChevronDown, ChevronUp, Download } from 'lucide-react'
 
 export default function SalesTab({ refresh }) {
   const [transactions, setTransactions] = useState([])
@@ -114,6 +115,13 @@ export default function SalesTab({ refresh }) {
                         <span className="text-emerald-600 font-semibold">{formatRupiah(tx.change_amount)}</span>
                       </div>
                     </div>
+                    <button
+                      onClick={() => downloadReceiptPDF(tx)}
+                      className="mt-3 w-full flex items-center justify-center gap-2 border border-emerald-200 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 active:bg-emerald-200 py-2.5 rounded-xl text-sm font-medium transition-colors"
+                    >
+                      <Download size={14} />
+                      Unduh Struk PDF
+                    </button>
                   </div>
                 )}
               </div>

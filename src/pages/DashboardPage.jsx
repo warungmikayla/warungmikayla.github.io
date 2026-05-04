@@ -2,8 +2,9 @@ import { useState } from 'react'
 import Navbar from '../components/Navbar'
 import ProductsTab from '../components/ProductsTab'
 import SalesTab from '../components/SalesTab'
+import ReportTab from '../components/ReportTab'
 import SalesModal from '../components/SalesModal'
-import { Package, ClipboardList } from 'lucide-react'
+import { Package, ClipboardList, BarChart2 } from 'lucide-react'
 
 export default function DashboardPage() {
   const [activeTab, setActiveTab] = useState('products')
@@ -11,8 +12,9 @@ export default function DashboardPage() {
   const [salesRefresh, setSalesRefresh] = useState(0)
 
   const tabs = [
-    { id: 'products', label: 'Daftar Produk', icon: Package },
+    { id: 'products', label: 'Produk', icon: Package },
     { id: 'sales', label: 'Riwayat', icon: ClipboardList },
+    { id: 'report', label: 'Laporan', icon: BarChart2 },
   ]
 
   return (
@@ -39,6 +41,7 @@ export default function DashboardPage() {
 
         {activeTab === 'products' && <ProductsTab />}
         {activeTab === 'sales' && <SalesTab refresh={salesRefresh} />}
+        {activeTab === 'report' && <ReportTab />}
       </main>
 
       {showSalesModal && (
