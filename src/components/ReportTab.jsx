@@ -115,7 +115,9 @@ export default function ReportTab() {
         )}
       </div>
 
-      {loading ? (
+      {preset === 'custom' && (!customStart || !customEnd) ? (
+        <div className="py-10 text-center text-sm text-gray-400">Pilih rentang tanggal untuk menampilkan data.</div>
+      ) : loading ? (
         <div className="py-10 text-center text-sm text-gray-400">Memuat laporan...</div>
       ) : (
         <>
