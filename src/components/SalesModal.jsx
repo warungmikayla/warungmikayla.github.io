@@ -50,6 +50,9 @@ export default function SalesModal({ onClose, onComplete }) {
   const removeItem = (productId) =>
     setCart(prev => prev.filter(i => i.product.id !== productId))
 
+  const setQtyDirect = (productId, qty) =>
+    setCart(prev => prev.map(i => i.product.id === productId ? { ...i, quantity: qty } : i))
+
   const total = cart.reduce((s, i) => s + i.product.price * i.quantity, 0)
   const payment = parseFloat(paymentInput) || 0
   const change = payment - total
@@ -272,21 +275,59 @@ export default function SalesModal({ onClose, onComplete }) {
                     <div className="overflow-y-auto flex-1">
                       {products.length === 0 ? (
                         <p className="p-6 text-center text-sm text-gray-400">Tidak ada produk.</p>
-                      ) : products.map(product => (
-                        <button
-                          key={product.id}
-                          onClick={() => addToCart(product)}
-                          className="w-full text-left px-4 py-3.5 hover:bg-emerald-50 active:bg-emerald-100 border-b border-gray-50 transition-colors flex items-center justify-between"
-                        >
-                          <div>
-                            <p className="text-sm font-medium text-gray-800">{product.name}</p>
-                            <p className="text-xs text-emerald-600 mt-0.5">{formatRupiah(product.price)}</p>
+                      ) : products.map(product => {
+                        const cartItem = cart.find(i => i.product.id === product.id)
+                        const qty = cartItem?.quantity || 0
+                        return (
+                          <div
+                            key={product.id}
+                            className="px-4 py-3 border-b border-gray-50 flex items-center gap-3"
+                          >
+                            <div
+                              className="flex-1 min-w-0 cursor-pointer py-0.5"
+                              onClick={() => qty === 0 && addToCart(product)}
+                            >
+                              <p className="text-sm font-medium text-gray-800 truncate">{product.name}</p>
+                              <p className="text-xs text-emerald-600 mt-0.5">{formatRupiah(product.price)}</p>
+                            </div>
+                            {qty === 0 ? (
+                              <button
+                                onClick={() => addToCart(product)}
+                                className="w-9 h-9 rounded-full bg-emerald-100 hover:bg-emerald-200 active:bg-emerald-300 flex items-center justify-center flex-shrink-0 transition-colors"
+                              >
+                                <Plus size={16} className="text-emerald-600" />
+                              </button>
+                            ) : (
+                              <div className="flex items-center gap-1 flex-shrink-0">
+                                <button
+                                  onClick={() => updateQty(product.id, -1)}
+                                  className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 active:bg-gray-300 flex items-center justify-center transition-colors"
+                                >
+                                  <Minus size={13} />
+                                </button>
+                                <input
+                                  type="number"
+                                  inputMode="numeric"
+                                  value={qty}
+                                  onChange={(e) => {
+                                    const val = parseInt(e.target.value)
+                                    if (isNaN(val) || val <= 0) removeItem(product.id)
+                                    else setQtyDirect(product.id, val)
+                                  }}
+                                  className="w-10 text-center text-sm font-bold focus:outline-none bg-transparent"
+                                  min="1"
+                                />
+                                <button
+                                  onClick={() => updateQty(product.id, 1)}
+                                  className="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-200 active:bg-emerald-300 flex items-center justify-center transition-colors"
+                                >
+                                  <Plus size={13} className="text-emerald-600" />
+                                </button>
+                              </div>
+                            )}
                           </div>
-                          <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0 ml-2">
-                            <Plus size={15} className="text-emerald-600" />
-                          </div>
-                        </button>
-                      ))}
+                        )
+                      })}
                     </div>
 
                     {/* Mobile: Floating bar saat keranjang ada isi */}
