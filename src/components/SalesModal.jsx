@@ -367,7 +367,19 @@ export default function SalesModal({ onClose, onComplete }) {
                               <button onClick={() => updateQty(product.id, -1)} className="w-7 h-7 rounded-full bg-gray-100 active:bg-gray-200 flex items-center justify-center">
                                 <Minus size={12} />
                               </button>
-                              <span className="text-sm font-bold w-6 text-center">{quantity}</span>
+                              <input
+                                type="number"
+                                inputMode="numeric"
+                                value={quantity}
+                                onChange={(e) => {
+                                  const val = parseInt(e.target.value)
+                                  if (isNaN(val) || val < 0) return
+                                  if (val === 0) removeItem(product.id)
+                                  else setQtyDirect(product.id, val)
+                                }}
+                                className="w-8 text-center text-sm font-bold focus:outline-none bg-transparent"
+                                min="1"
+                              />
                               <button onClick={() => updateQty(product.id, 1)} className="w-7 h-7 rounded-full bg-emerald-100 active:bg-emerald-200 flex items-center justify-center">
                                 <Plus size={12} className="text-emerald-600" />
                               </button>
