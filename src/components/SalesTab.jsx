@@ -77,6 +77,7 @@ export default function SalesTab({ refresh }) {
   }, [refresh, preset, customStart, customEnd])
 
   const totalFiltered = transactions.reduce((s, tx) => s + tx.total_amount, 0)
+  const showContent = preset !== 'custom' || (customStart && customEnd)
 
   return (
     <div className="space-y-4">
@@ -116,20 +117,24 @@ export default function SalesTab({ refresh }) {
         )}
       </div>
 
-      {/* Summary */}
-      <div className="bg-emerald-600 text-white rounded-xl p-4 sm:p-5 grid grid-cols-2 gap-4">
-        <div>
-          <p className="text-emerald-100 text-xs sm:text-sm">{SUMMARY_LABEL[preset]}</p>
-          <p className="text-xl sm:text-2xl font-bold mt-1">{formatRupiah(totalFiltered)}</p>
-        </div>
-        <div className="text-right">
-          <p className="text-emerald-100 text-xs sm:text-sm">Jumlah Transaksi</p>
-          <p className="text-xl sm:text-2xl font-bold mt-1">{transactions.length}</p>
-        </div>
-      </div>
+      {/* Summary + List */}
+      {!showContent ? (
+        <div className="py-10 text-center text-sm text-gray-400">Pilih rentang tanggal untuk menampilkan data.</div>
+      ) : (
+        <>
+          <div className="bg-emerald-600 text-white rounded-xl p-4 sm:p-5 grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-emerald-100 text-xs sm:text-sm">{SUMMARY_LABEL[preset]}</p>
+              <p className="text-xl sm:text-2xl font-bold mt-1">{formatRupiah(totalFiltered)}</p>
+            </div>
+            <div className="text-right">
+              <p className="text-emerald-100 text-xs sm:text-sm">Jumlah Transaksi</p>
+              <p className="text-xl sm:text-2xl font-bold mt-1">{transactions.length}</p>
+            </div>
+          </div>
 
-      {/* List */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+          {/* List */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200">
         <div className="px-4 sm:px-5 py-4 border-b border-gray-100">
           <h2 className="font-semibold text-gray-800 text-sm sm:text-base">Daftar Transaksi</h2>
         </div>
@@ -214,7 +219,9 @@ export default function SalesTab({ refresh }) {
             ))}
           </div>
         )}
-      </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }
