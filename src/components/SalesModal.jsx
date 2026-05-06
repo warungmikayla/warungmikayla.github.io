@@ -283,48 +283,42 @@ export default function SalesModal({ onClose, onComplete }) {
                             key={product.id}
                             className="px-4 py-3 border-b border-gray-50 flex items-center gap-3"
                           >
-                            <div
-                              className="flex-1 min-w-0 cursor-pointer py-0.5"
-                              onClick={() => qty === 0 && addToCart(product)}
-                            >
+                            <div className="flex-1 min-w-0 py-0.5">
                               <p className="text-sm font-medium text-gray-800 truncate">{product.name}</p>
                               <p className="text-xs text-emerald-600 mt-0.5">{formatRupiah(product.price)}</p>
                             </div>
-                            {qty === 0 ? (
+                            <div className="flex items-center gap-1 flex-shrink-0">
                               <button
-                                onClick={() => addToCart(product)}
-                                className="w-9 h-9 rounded-full bg-emerald-100 hover:bg-emerald-200 active:bg-emerald-300 flex items-center justify-center flex-shrink-0 transition-colors"
+                                onClick={() => qty > 0 && updateQty(product.id, -1)}
+                                className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                                  qty === 0
+                                    ? 'bg-gray-50 text-gray-300 cursor-not-allowed'
+                                    : 'bg-gray-100 hover:bg-gray-200 active:bg-gray-300 text-gray-700'
+                                }`}
                               >
-                                <Plus size={16} className="text-emerald-600" />
+                                <Minus size={13} />
                               </button>
-                            ) : (
-                              <div className="flex items-center gap-1 flex-shrink-0">
-                                <button
-                                  onClick={() => updateQty(product.id, -1)}
-                                  className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 active:bg-gray-300 flex items-center justify-center transition-colors"
-                                >
-                                  <Minus size={13} />
-                                </button>
-                                <input
-                                  type="number"
-                                  inputMode="numeric"
-                                  value={qty}
-                                  onChange={(e) => {
-                                    const val = parseInt(e.target.value)
-                                    if (isNaN(val) || val <= 0) removeItem(product.id)
-                                    else setQtyDirect(product.id, val)
-                                  }}
-                                  className="w-10 text-center text-sm font-bold focus:outline-none bg-transparent"
-                                  min="1"
-                                />
-                                <button
-                                  onClick={() => updateQty(product.id, 1)}
-                                  className="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-200 active:bg-emerald-300 flex items-center justify-center transition-colors"
-                                >
-                                  <Plus size={13} className="text-emerald-600" />
-                                </button>
-                              </div>
-                            )}
+                              <input
+                                type="number"
+                                inputMode="numeric"
+                                value={qty}
+                                onChange={(e) => {
+                                  const val = parseInt(e.target.value)
+                                  if (isNaN(val) || val < 0) return
+                                  if (val === 0) removeItem(product.id)
+                                  else if (qty === 0) setCart(prev => [...prev, { product, quantity: val }])
+                                  else setQtyDirect(product.id, val)
+                                }}
+                                className="w-10 text-center text-sm font-bold focus:outline-none bg-transparent"
+                                min="0"
+                              />
+                              <button
+                                onClick={() => qty === 0 ? addToCart(product) : updateQty(product.id, 1)}
+                                className="w-8 h-8 rounded-full bg-emerald-100 hover:bg-emerald-200 active:bg-emerald-300 flex items-center justify-center transition-colors"
+                              >
+                                <Plus size={13} className="text-emerald-600" />
+                              </button>
+                            </div>
                           </div>
                         )
                       })}
