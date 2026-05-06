@@ -25,7 +25,7 @@ const PRESETS = [
 ]
 
 export default function ReportTab() {
-  const [preset, setPreset] = useState('month')
+  const [preset, setPreset] = useState('today')
   const [customStart, setCustomStart] = useState('')
   const [customEnd, setCustomEnd] = useState('')
   const [transactions, setTransactions] = useState([])
