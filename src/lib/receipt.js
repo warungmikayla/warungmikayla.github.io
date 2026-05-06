@@ -10,7 +10,8 @@ export function downloadReceiptPDF(tx) {
   doc.setFontSize(13); doc.setFont('helvetica', 'bold')
   doc.text('WARUNG MIKAYLA', 40, y, { align: 'center' }); y += 5
   doc.setFontSize(8); doc.setFont('helvetica', 'normal')
-  doc.text('Jl. Contoh No. 1, Kota Anda', 40, y, { align: 'center' }); y += 8
+  doc.text('Kp. Lebaksiuh No.152, RT.05/RW.01/', 40, y, { align: 'center' }); y += 5
+  doc.text('WA: 0831-1253-7506', 40, y, { align: 'center' }); y += 6
 
   doc.text(`No: #${tx.id.slice(0, 8).toUpperCase()}`, 5, y); y += 4
   doc.text(`Tgl: ${new Date(tx.created_at).toLocaleString('id-ID')}`, 5, y); y += 5

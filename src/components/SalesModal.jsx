@@ -97,7 +97,8 @@ export default function SalesModal({ onClose, onComplete }) {
     doc.setFontSize(13); doc.setFont('helvetica', 'bold')
     doc.text('WARUNG MIKAYLA', 40, y, { align: 'center' }); y += 5
     doc.setFontSize(8); doc.setFont('helvetica', 'normal')
-    doc.text('Jl. Contoh No. 1, Kota Anda', 40, y, { align: 'center' }); y += 8
+    doc.text('Kp. Lebaksiuh No.152, RT.05/RW.01', 40, y, { align: 'center' }); y += 5
+    doc.text('WA: 0831-1253-7506', 40, y, { align: 'center' }); y += 6
 
     doc.text(`No: #${transaction.id.slice(0, 8).toUpperCase()}`, 5, y); y += 4
     doc.text(`Tgl: ${new Date(transaction.created_at).toLocaleString('id-ID')}`, 5, y); y += 5
@@ -134,7 +135,8 @@ export default function SalesModal({ onClose, onComplete }) {
           <div style={{ fontFamily: 'monospace', fontSize: '11px', width: '76mm' }}>
             <div style={{ textAlign: 'center', marginBottom: '6px' }}>
               <div style={{ fontSize: '15px', fontWeight: 'bold' }}>WARUNG MIKAYLA</div>
-              <div>Jl. Contoh No. 1, Kota Anda</div>
+              <div>Kp. Lebaksiuh No.152, RT.05/RW.01</div>
+              <div>WA: 0831-1253-7506</div>
             </div>
             <div style={{ borderTop: '1px dashed #000', margin: '4px 0' }} />
             <div style={{ marginBottom: '4px' }}>
@@ -468,7 +470,8 @@ export default function SalesModal({ onClose, onComplete }) {
                   <div className="max-w-[260px] mx-auto bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden font-mono text-xs mb-5">
                     <div className="bg-gray-50 px-4 pt-4 pb-2 text-center">
                       <p className="font-bold text-sm">WARUNG MIKAYLA</p>
-                      <p className="text-gray-500 text-xs">Jl. Contoh No. 1, Kota Anda</p>
+                      <p className="text-gray-500 text-xs">Kp. Lebaksiuh No.152, RT.05/RW.01</p>
+                      <p className="text-gray-500 text-xs">WA: 0831-1253-7506</p>
                     </div>
                     <div className="px-4 pb-4">
                       <div className="border-t border-dashed border-gray-300 my-2" />
